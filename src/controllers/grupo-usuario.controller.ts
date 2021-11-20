@@ -132,5 +132,4 @@ export class GrupoUsuarioController {
   ): Promise<UsuarioPorGrupo[]> {
     return this.usuarioPorGrupoRepository.find(filter);
   }
-
 }
