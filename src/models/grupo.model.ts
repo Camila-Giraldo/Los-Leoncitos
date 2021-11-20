@@ -19,6 +19,12 @@ export class Grupo extends Entity {
   nombre: string;
 
   @property({
+    type: 'boolean',
+    required: true,
+  })
+  disponible: string;
+
+  @property({
     type: 'number',
     required: true,
   })

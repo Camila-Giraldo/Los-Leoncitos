@@ -10,10 +10,11 @@ export class UsuarioPorGrupo extends Entity {
   id?: string;
 
   @property({
-    type: 'string',
+    type: 'array',
+    itemType: 'number',
     required: true,
   })
-  calificaciones: string;
+  calificaciones: string[];
 
   @property({
     type: 'date',

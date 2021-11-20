@@ -13,7 +13,8 @@ import {
   param,
   patch,
   post,
-  requestBody
+  requestBody,
+  response
 } from '@loopback/rest';
 import {
   Grupo, Usuario, UsuarioPorGrupo
@@ -93,18 +94,43 @@ export class GrupoUsuarioController {
     return this.grupoRepository.usuarios(id).patch(usuario, where);
   }
 
-  @del('/grupos/{id}/usuarios', {
-    responses: {
-      '200': {
-        description: 'Grupo.Usuario DELETE success count',
-        content: {'application/json': {schema: CountSchema}},
+  @del('/grupos/{id_grupo}/{id_usuario}')
+  @response(204, {
+    description: 'relation DELETE success'
+  })
+  async delete(
+    @param.path.string('id_grupo') id_grupo: string,
+    @param.path.string('id_usuario') id_usuario: string
+  ): Promise<Boolean> {
+    let reg = await this.usuarioPorGrupoRepository.findOne({
+      where: {
+        grupoId: id_grupo,
+        usuarioId: id_usuario
+      }
+    })
+    if (reg) {
+      await this.usuarioPorGrupoRepository.deleteById(reg.id)
+      return true
+    }
+    return false
+  }
+
+  @get('/grupos-usuarios')
+  @response(200, {
+    description: 'Array of UsuarioPorGrupo model instances',
+    content: {
+      'application/json': {
+        schema: {
+          type: 'array',
+          items: getModelSchemaRef(UsuarioPorGrupo, {includeRelations: true}),
+        },
       },
     },
   })
-  async delete(
-    @param.path.string('id') id: string,
-    @param.query.object('where', getWhereSchemaFor(Usuario)) where?: Where<Usuario>,
-  ): Promise<Count> {
-    return this.grupoRepository.usuarios(id).delete(where);
+  async findAll(
+    @param.query.object('filter') filter?: Filter<UsuarioPorGrupo>,
+  ): Promise<UsuarioPorGrupo[]> {
+    return this.usuarioPorGrupoRepository.find(filter);
   }
+
 }
