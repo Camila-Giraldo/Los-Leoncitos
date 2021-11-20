@@ -3,9 +3,9 @@ import {
   CountSchema,
   Filter,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
-  import {
+import {
   del,
   get,
   getModelSchemaRef,
@@ -13,18 +13,17 @@ import {
   param,
   patch,
   post,
-  requestBody,
+  requestBody
 } from '@loopback/rest';
 import {
-Grupo,
-UsuarioPorGrupo,
-Usuario,
+  Grupo, Usuario, UsuarioPorGrupo
 } from '../models';
-import {GrupoRepository} from '../repositories';
+import {GrupoRepository, UsuarioPorGrupoRepository} from '../repositories';
 
 export class GrupoUsuarioController {
   constructor(
     @repository(GrupoRepository) protected grupoRepository: GrupoRepository,
+    @repository(UsuarioPorGrupoRepository) protected usuarioPorGrupoRepository: UsuarioPorGrupoRepository,
   ) { }
 
   @get('/grupos/{id}/usuarios', {
@@ -46,28 +45,29 @@ export class GrupoUsuarioController {
     return this.grupoRepository.usuarios(id).find(filter);
   }
 
-  @post('/grupos/{id}/usuarios', {
+  @post('/grupo-por-usuario', {
     responses: {
       '200': {
         description: 'create a Usuario model instance',
-        content: {'application/json': {schema: getModelSchemaRef(Usuario)}},
+        content: {'application/json': {schema: getModelSchemaRef(UsuarioPorGrupo)}},
       },
     },
   })
-  async create(
-    @param.path.string('id') id: typeof Grupo.prototype.id,
+
+  async createRelation(
     @requestBody({
       content: {
         'application/json': {
-          schema: getModelSchemaRef(Usuario, {
-            title: 'NewUsuarioInGrupo',
+          schema: getModelSchemaRef(UsuarioPorGrupo, {
+            title: 'NewUserWithGroup',
             exclude: ['id'],
           }),
         },
       },
-    }) usuario: Omit<Usuario, 'id'>,
-  ): Promise<Usuario> {
-    return this.grupoRepository.usuarios(id).create(usuario);
+    }) datos: Omit<UsuarioPorGrupo, 'id'>,
+  ): Promise<UsuarioPorGrupo | null> {
+    let registro = await this.usuarioPorGrupoRepository.create(datos)
+    return registro
   }
 
   @patch('/grupos/{id}/usuarios', {
