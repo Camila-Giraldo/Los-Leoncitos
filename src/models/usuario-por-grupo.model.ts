@@ -14,7 +14,7 @@ export class UsuarioPorGrupo extends Entity {
     itemType: 'number',
     required: true,
   })
-  calificaciones: string[];
+  calificaciones: number[];
 
   @property({
     type: 'date',
