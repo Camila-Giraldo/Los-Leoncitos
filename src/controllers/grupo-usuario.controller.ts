@@ -75,23 +75,21 @@ export class GrupoUsuarioController {
     responses: {
       '200': {
         description: 'Grupo.Usuario PATCH success count',
-        content: {'application/json': {schema: CountSchema}},
       },
     },
   })
-  async patch(
+  async updateById(
     @param.path.string('id') id: string,
     @requestBody({
       content: {
         'application/json': {
-          schema: getModelSchemaRef(Usuario, {partial: true}),
+          schema: getModelSchemaRef(UsuarioPorGrupo, {partial: true}),
         },
       },
     })
-    usuario: Partial<Usuario>,
-    @param.query.object('where', getWhereSchemaFor(Usuario)) where?: Where<Usuario>,
-  ): Promise<Count> {
-    return this.grupoRepository.usuarios(id).patch(usuario, where);
+    usuario: UsuarioPorGrupo,
+  ): Promise<void> {
+    return this.usuarioPorGrupoRepository.updateById(id, usuario)
   }
 
   @del('/grupos/{id_grupo}/{id_usuario}')
