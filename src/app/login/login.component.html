@@ -1,0 +1,38 @@
+<div class="m-5">
+
+  <img src="/assets/images/fondo.jpg" alt="" class="cls-image">
+
+ 
+  <div class="cls-container-login">
+    <h2 [ngClass]="{'cls-amarillo': clickLogin}">{{tituloLogin}}</h2>
+
+    <form class="form-login" [formGroup]="formLogin">
+      <div *ngIf="toggleForm">
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">Email address</label>
+          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+            formControlName="codigo">
+          <div *ngIf="!formLogin.controls.codigo.value" id="emailHelp" class="form-text">Campo requerido.</div>
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputPassword1" class="form-label">Password</label>
+          <input type="password" class="form-control" id="exampleInputPassword1" formControlName="password">
+          <div *ngIf="!formLogin.controls.password.value" id="emailHelp" class="form-text">Campo requerido.</div>
+        </div>
+        <div class="mb-3 form-check">
+          <input type="checkbox" class="form-check-input" id="exampleCheck1">
+          <label class="form-check-label" for="exampleCheck1">Aceptar términos y condiciones</label>
+        </div>
+        <div class="mb-3">
+          <a href="">¿Eres estudiante? Registrate aquí</a>
+        </div>
+      </div>
+  
+
+      <!-- <label for="">La contraseña es {{password}}</label> -->
+
+      <button [disabled]="!formLogin.valid" type="submit" class="btn btn-primary" (click)= "autenticar()">Login</button>
+      <!-- <button (click)="setToggleForm()" type="submit" class="btn btn-primary">Toggle</button> -->
+    </form>
+</div>
+</div>

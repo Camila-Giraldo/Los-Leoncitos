@@ -1,0 +1,26 @@
+.cls-image{
+    position: fixed;
+    left: 0;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    z-index: -1;
+    top: 0;
+}
+
+.cls-amarillo{
+    color: #ff9800;
+}
+
+.cls-container-login {
+    background: #ffffff;
+    position: fixed;
+
+    .form-login {
+        width: 300px;
+    
+        form-text{
+            color: #ff6c3e !important;
+        }
+    }
+}
