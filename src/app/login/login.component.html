@@ -9,13 +9,13 @@
     <form class="form-login" [formGroup]="formLogin">
       <div *ngIf="toggleForm">
         <div class="mb-3">
-          <label for="exampleInputEmail1" class="form-label">Email address</label>
+          <label for="exampleInputEmail1" class="form-label">Correo Electrónico</label>
           <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
             formControlName="codigo">
           <div *ngIf="!formLogin.controls.codigo.value" id="emailHelp" class="form-text">Campo requerido.</div>
         </div>
         <div class="mb-3">
-          <label for="exampleInputPassword1" class="form-label">Password</label>
+          <label for="exampleInputPassword1" class="form-label">Contraseña</label>
           <input type="password" class="form-control" id="exampleInputPassword1" formControlName="password">
           <div *ngIf="!formLogin.controls.password.value" id="emailHelp" class="form-text">Campo requerido.</div>
         </div>

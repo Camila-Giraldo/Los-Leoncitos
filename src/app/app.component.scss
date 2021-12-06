@@ -6,13 +6,17 @@
 }
 
 .cls-footer{
-    position: fixed;
-    height: 100px;
-    bottom: 0;
-    width: 100%;
+    
 
     footer{
         background: #318AB5 !important;
         color: white;
+        position: fixed;
+        width: 100%;
+        bottom: 0;
+    }
+
+    ul {
+        margin-right: 10px;
     }
 }

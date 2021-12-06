@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
-  tituloLogin: String = 'Login';
+  tituloLogin: String = 'Iniciar Sesión';
   codigo: String = '';
   password: String = '';
 
