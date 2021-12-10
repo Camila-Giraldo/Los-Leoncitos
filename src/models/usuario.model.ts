@@ -53,6 +53,12 @@ export class Usuario extends Entity {
   codigo: string;
 
   @property({
+    type: 'string',
+    required: true,
+  })
+  contrasenia: string;
+
+  @property({
     type: 'date',
     required: true,
   })

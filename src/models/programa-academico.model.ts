@@ -26,6 +26,18 @@ export class ProgramaAcademico extends Entity {
     type: 'string',
     required: true,
   })
+  imagen: string;
+
+  @property({
+    type: 'string',
+    required: true,
+  })
+  descripcion: string;
+
+  @property({
+    type: 'string',
+    required: true,
+  })
   duracion: string;
 
   @property({
