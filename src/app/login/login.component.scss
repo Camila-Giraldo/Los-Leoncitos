@@ -1,4 +1,4 @@
-.cls-image{
+.cls-image {
     position: fixed;
     left: 0;
     width: 100%;
@@ -8,7 +8,7 @@
     top: 0;
 }
 
-.cls-amarillo{
+.cls-amarillo {
     color: #ff9800;
 }
 
@@ -17,11 +17,9 @@
     position: fixed;
     border-radius: 15px;
     padding: 15px;
-
     .form-login {
         width: 300px;
-    
-        form-text{
+        form-text {
             color: #ff6c3e !important;
         }
     }
