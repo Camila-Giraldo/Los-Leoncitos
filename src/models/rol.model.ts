@@ -29,6 +29,13 @@ export class Rol extends Entity {
   permisos: string;
 
   @property({
+    type: 'array',
+    itemType: 'string',
+    required: true,
+  })
+  modulos: string[];
+
+  @property({
     type: 'date',
     required: true,
   })
