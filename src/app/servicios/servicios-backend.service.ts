@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -12,6 +12,15 @@ export class ServiciosBackendService {
 
   getDatos(ruta: string): Observable<any> {
     return this.http.get(this.urlBackend + ruta);
+  }
+
+  agregarDatos(ruta: string, datos: string): Observable<any> {
+    const headers = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+    return this.http.post(this.urlBackend + ruta, datos, headers);
   }
 
   validarCredenciales(ruta: string, credenciales: string): Observable<any> {

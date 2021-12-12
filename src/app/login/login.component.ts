@@ -50,8 +50,8 @@ export class LoginComponent implements OnInit {
 
     this.servicioBackend
       .validarCredenciales('/usuarios', JSON.stringify(credenciales))
-      .subscribe(
-        (response) => {
+      .subscribe({
+        next: (response) => {
           if (response) {
             console.log(response);
             if (response.length > 0) {
@@ -63,13 +63,13 @@ export class LoginComponent implements OnInit {
             alert('Ups ocurrió un error');
           }
         },
-        (error) => {
+        error: (error) => {
           console.log('error');
         },
-        () => {
+        complete: () => {
           console.log('se completó');
-        }
-      );
+        },
+      });
   }
 
   setToggleForm() {
