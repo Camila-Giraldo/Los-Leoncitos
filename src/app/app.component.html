@@ -21,6 +21,16 @@
         >
           Ir a Login
         </button>
+
+        <button
+          *ngIf="servicioGlobal.rutaActual === 'login'"
+          type="button"
+          class="btn btn-secondary border border-light ms-3"
+          (click)="routeAdminUsuarios()"
+        >
+          Admin. de Usuarios
+        </button>
+
       </div>
     </div>
 

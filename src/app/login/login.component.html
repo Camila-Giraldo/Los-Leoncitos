@@ -33,10 +33,10 @@
             type="password"
             class="form-control"
             id="exampleInputPassword1"
-            formControlName="password"
+            formControlName="contrasenia"
           />
           <div
-            *ngIf="!formLogin.controls.password.value"
+            *ngIf="!formLogin.controls.contrasenia.value"
             id="emailHelp"
             class="form-text"
           >
@@ -54,7 +54,7 @@
         </div>
       </div>
 
-      <!-- <label for="">La contraseña es {{password}}</label> -->
+      <!-- <label for="">La contraseña es {{contrasenia}}</label> -->
 
       <button
         [disabled]="!formLogin.valid"

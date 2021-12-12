@@ -13,12 +13,7 @@ import { ServiciosBackendService } from '../servicios/servicios-backend.service'
 export class LoginComponent implements OnInit {
   tituloLogin: String = 'Iniciar Sesión';
   correo: String = '';
-  password: String = '';
-
-  //formLogin = new FormGroup({
-  //codigo: new FormControl(''),
-  //password: new FormControl(''),
-  //});
+  contrasenia: String = '';
 
   formLogin: any;
 
@@ -33,7 +28,7 @@ export class LoginComponent implements OnInit {
   ) {
     this.formLogin = fb.group({
       correo: ['', Validators.compose([Validators.required, Validators.email])],
-      password: ['', Validators.required],
+      contrasenia: ['', Validators.required],
     });
   }
 
@@ -47,37 +42,34 @@ export class LoginComponent implements OnInit {
 
   autenticar(): void {
     const contraseniaEncriptada = Md5.hashStr(
-      this.formLogin.controls['password'].value
+      this.formLogin.controls['contrasenia'].value
     );
-    this.formLogin.controls.password.setValue(contraseniaEncriptada);
+    this.formLogin.controls.contrasenia.setValue(contraseniaEncriptada);
 
     const credenciales = this.formLogin.getRawValue();
 
     this.servicioBackend
-      .validUser('/usuarios', JSON.stringify(credenciales))
+      .validarCredenciales('/usuarios', JSON.stringify(credenciales))
       .subscribe(
         (response) => {
           if (response) {
+            console.log(response);
             if (response.length > 0) {
               alert('Felicidades');
             } else {
               alert('Las credenciales son incorrectas');
             }
           } else {
-            alert('Ocurrió un error');
+            alert('Ups ocurrió un error');
           }
         },
         (error) => {
           console.log('error');
         },
         () => {
-          console.log('Completado');
+          console.log('se completó');
         }
       );
-
-    this.clickLogin = true;
-
-    this.router.navigate(['/']);
   }
 
   setToggleForm() {

@@ -23,4 +23,7 @@ export class AppComponent {
   routeProgramas(): void {
     this.router.navigate(['/programas-oferta']);
   }
+  routeAdminUsuarios(): void {
+    this.router.navigate(['/admin-usuario']);
+  }
 }

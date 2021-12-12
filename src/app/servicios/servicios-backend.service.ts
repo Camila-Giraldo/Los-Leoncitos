@@ -14,12 +14,10 @@ export class ServiciosBackendService {
     return this.http.get(this.urlBackend + ruta);
   }
 
-  validUser(ruta: string, credenciales: string): Observable<any> {
-    const url =
-      this.urlBackend +
-      ruta +
-      '?filter=' +
-      encodeURIComponent('{ "where" : ' + credenciales + '}');
+  validarCredenciales(ruta: string, credenciales: string): Observable<any> {
+    const filtro = '{ "where" : ' + credenciales + '}';
+    const filtroEncode = encodeURIComponent(filtro);
+    const url = this.urlBackend + ruta + '?filter=' + filtroEncode;
     return this.http.get(url);
   }
 }
