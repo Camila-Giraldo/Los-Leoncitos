@@ -44,6 +44,15 @@
                 <label for="exampleInputEmail1" class="form-label">Código</label>
                 <input type="text" class="form-control" formControlName="codigo" aria-describedby="emailHelp">
             </div>
+            <div class="mb-3 me-3">
+                <label for="exampleInputEmail1" class="form-label">Fecha registro</label>
+                <input type="date" class="form-control" formControlName="fechaRegistro" aria-describedby="emailHelp">
+            </div>
+            <select class="form-select cls-select-filtro me-3 mt-3" [(ngModel)]="selectRolId" aria-placeholder="Id rol">
+                <option [value]="r.id" *ngFor="let r of idRol">
+                    {{r.texto}}
+                </option>
+            </select>
             <button [disabled]="!formUsuario.valid" type="submit" class="btn btn-danger cls-boton-crud mt-3" (click)="crearUsuario()">Guardar</button>
         </form>
     </section>

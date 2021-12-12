@@ -27,7 +27,23 @@ export class AdminUsuarioComponent implements OnInit {
     },
   ];
 
+  idRol = [
+    {
+      id: '6199651059a47c4ac809bdd2',
+      texto: 'Profesor',
+    },
+    {
+      id: '6199653e59a47c4ac809bdd3',
+      texto: 'Estudiante',
+    },
+    {
+      id: '6199659359a47c4ac809bdd4',
+      texto: 'Administrador',
+    },
+  ];
+
   selectTipoUsuario = 'Estudiante';
+  selectRolId = '6199653e59a47c4ac809bdd3';
 
   listaUsuarios: any[] = [];
 
@@ -45,8 +61,8 @@ export class AdminUsuarioComponent implements OnInit {
       telefono: ['', Validators.required],
       fechaNacimiento: ['', Validators.required],
       codigo: ['', Validators.required],
-      contrasenia: [''],
-      fechaRegistro: [''],
+      contrasenia: ['b59c67bf196a4758191e42f76670ceba'],
+      fechaRegistro: ['', Validators.required],
       rolId: [''],
     });
     this.obtenerUsuarios();
@@ -79,6 +95,7 @@ export class AdminUsuarioComponent implements OnInit {
   async crearUsuario(): Promise<void> {
     const usuario = this.formUsuario.getRawValue();
     usuario.tipo = this.selectTipoUsuario;
+    usuario.rolId = this.selectRolId;
     this.servicioBackend
       .agregarDatos('/usuarios', JSON.stringify(usuario))
       .subscribe({
@@ -90,7 +107,7 @@ export class AdminUsuarioComponent implements OnInit {
             icon: 'success',
             confirmButtonText: 'Vale',
           });
-          this.obtenerUsuarios()
+          this.obtenerUsuarios();
         },
         error: (e) => {
           Swal.fire({
