@@ -15,7 +15,7 @@
     </section>
 
     <section class="mb-4" *ngIf="nuevoUsuario">
-        <form [formGroup]="formUsuario" class="d-flex flex-row cls-form">
+        <form [formGroup]="formUsuario" class="d-flex flex-wrap cls-form">
             <div class="mb-3 me-3">
                 <label for="exampleInputEmail1" class="form-label">Nombre</label>
                 <input type="text" class="form-control" formControlName="nombre" aria-describedby="emailHelp">
@@ -38,7 +38,7 @@
             </div>
             <div class="mb-3 me-3">
                 <label for="exampleInputEmail1" class="form-label">Fecha de nacimiento</label>
-                <input type="date" class="form-control" formControlName="fechaNacimiento" aria-describedby="emailHelp">
+                <input type="datetime" class="form-control" formControlName="fechaNacimiento" aria-describedby="emailHelp">
             </div>
             <div class="mb-3 me-3">
                 <label for="exampleInputEmail1" class="form-label">Código</label>
@@ -46,7 +46,7 @@
             </div>
             <div class="mb-3 me-3">
                 <label for="exampleInputEmail1" class="form-label">Fecha registro</label>
-                <input type="date" class="form-control" formControlName="fechaRegistro" aria-describedby="emailHelp">
+                <input type="datetime" class="form-control" formControlName="fechaRegistro" aria-describedby="emailHelp">
             </div>
             <select class="form-select cls-select-filtro me-3 mt-3" [(ngModel)]="selectRolId" aria-placeholder="Id rol">
                 <option [value]="r.id" *ngFor="let r of idRol">

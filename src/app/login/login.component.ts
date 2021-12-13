@@ -4,6 +4,7 @@ import { Validators, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ServicioGlobalService } from '../servicios/servicio-global.service';
 import { ServiciosBackendService } from '../servicios/servicios-backend.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'login',
@@ -49,15 +50,27 @@ export class LoginComponent implements OnInit {
     const credenciales = this.formLogin.getRawValue();
 
     this.servicioBackend
-      .validarCredenciales('/usuarios', JSON.stringify(credenciales))
+      .validarCredenciales(JSON.stringify(credenciales))
       .subscribe({
         next: (response) => {
           if (response) {
             console.log(response);
-            if (response.length > 0) {
-              alert('Felicidades');
+            if (response.tk) {
+              Swal.fire({
+                title: '¡Bienvenido!',
+                text: 'Ha iniciado sesión satisfactoriamente',
+                icon: 'success',
+                confirmButtonText: 'Vale',
+              });
+
+              localStorage.setItem('tkEduFree', response.tk);
+              this.servicioBackend.token = response.tk;
+              this.servicioBackend.isAutenticate = true;
+
+              this.router.navigate(['/admin-usuario'])
+
             } else {
-              alert('Las credenciales son incorrectas');
+              alert ('Las credenciales son incorrectas')
             }
           } else {
             alert('Ups ocurrió un error');
@@ -65,6 +78,16 @@ export class LoginComponent implements OnInit {
         },
         error: (error) => {
           console.log('error');
+
+          if (error.status == 401){
+            Swal.fire({
+              title: 'Error en las credenciales',
+              text: 'Ha ingresado unas credenciales erróneas',
+              icon: 'error',
+              confirmButtonText: 'Vale',
+            });
+          }
+
         },
         complete: () => {
           console.log('se completó');

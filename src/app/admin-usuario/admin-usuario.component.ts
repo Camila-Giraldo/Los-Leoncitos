@@ -69,7 +69,7 @@ export class AdminUsuarioComponent implements OnInit {
     // const ruta = this.servicioGlobal.rutaActual;
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   ngAfterViewInit(): void {
     setTimeout(() => {

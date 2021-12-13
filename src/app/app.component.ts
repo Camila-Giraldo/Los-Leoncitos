@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ServicioGlobalService } from './servicios/servicio-global.service';
+import { ServiciosBackendService } from './servicios/servicios-backend.service';
 
 @Component({
   selector: 'app-root',
@@ -12,12 +13,14 @@ export class AppComponent {
 
   constructor(
     public servicioGlobal: ServicioGlobalService,
+    public servicioBackend: ServiciosBackendService,
     private router: Router
   ) {
     const ruta = this.servicioGlobal.rutaActual;
   }
 
   routeLogin(): void {
+    this.servicioBackend.cerrarSesion();
     this.router.navigate(['/login']);
   }
   routeProgramas(): void {
