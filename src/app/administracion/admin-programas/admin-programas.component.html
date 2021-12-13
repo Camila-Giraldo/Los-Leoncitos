@@ -1,0 +1,79 @@
+<div class="p-5">
+
+    <section class="mb-3 d-flex flex-row cls-section-usuario">
+
+        <button type="button" (click)="iniciarCreacion()" class="btn btn-primary me-2 cls-boton-crud">Crear
+            Programa</button>
+        <select class="form-select cls-select-filtro" [(ngModel)]="selectTipoPrograma" (change)="filtarProgramaPorTipo()" aria-placeholder="Tipo de programa">
+            <option [value]="tipo.codigo" *ngFor="let tipo of tipoPrograma">
+                {{tipo.texto}}
+            </option>
+        </select>
+        <div class="cls-buscar">
+            <input type="text" class="form-control" [(ngModel)]="textoFiltro" (ngModelChange)="filtrarPorTexto()" name="" id="" placeholder="Buscar">
+
+        </div>
+    </section>
+
+    <section class="mb-4" *ngIf="nuevoPrograma">
+        <form [formGroup]="formPrograma" class="d-flex flex-wrap cls-form">
+            <div class="mb-3 me-3">
+                <label for="exampleInputEmail1" class="form-label">Nombre</label>
+                <input type="text" class="form-control" formControlName="nombre" aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3 me-3">
+                <label for="exampleInputEmail1" class="form-label">Imagen</label>
+                <input type="text" class="form-control" formControlName="imagen" aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3 me-3">
+                <label for="exampleInputEmail1" class="form-label">Descripción</label>
+                <input type="text" class="form-control" formControlName="descripcion" aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3 me-3">
+                <label for="exampleInputEmail1" class="form-label">Duración</label>
+                <input type="text" class="form-control" formControlName="duracion" aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3 me-3">
+                <label for="exampleInputEmail1" class="form-label">Código</label>
+                <input type="text" class="form-control" formControlName="codigo" aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3 me-3">
+                <label for="exampleInputEmail1" class="form-label">Créditos</label>
+                <input type="text" class="form-control" formControlName="creditos" aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3 me-3">
+                <label for="exampleInputEmail1" class="form-label">Fecha registro</label>
+                <input type="datetime" class="form-control" formControlName="fechaRegistro" aria-describedby="datetimeHelp">
+            </div>
+            <button *ngIf="modoCrud == 'adicion'" [disabled]="!formPrograma.valid" type="submit" class="btn btn-primary cls-boton-crud cls-boton-guardar" (click)="crearPrograma()"><i
+                    class="fa fa-user-plus"></i>
+                Crear</button>
+            <button *ngIf="modoCrud == 'edicion'" [disabled]="!formPrograma.valid" type="submit" class="btn btn-danger cls-boton-crud cls-boton-guardar" (click)="editarPrograma()"><i
+                    class="fa fa-edit"></i>
+                Guardar</button>
+        </form>
+    </section>
+
+    <section>
+        <table class="table table-hover">
+            <thead>
+                <td>Nombre</td>
+                <td>Tipo</td>
+                <td>Imagen</td>
+                <td>Codigo</td>
+                <td>Acciones</td>
+            </thead>
+            <tbody>
+                <tr *ngFor="let u of listaProgramas">
+                    <td>{{u.nombre}}</td>
+                    <td>{{u.tipo}}</td>
+                    <td>{{u.imagen}}</td>
+                    <td>{{u.codigo}}</td>
+                    <td><button type="button" class="btn btn-outline-primary me-2" (click)="iniciarEdicion(u)">Editar</button>
+                        <button type="button" class="btn btn-outline-danger me-2" (click)="eliminarProgramas(u.id)">Eliminar</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+</div>

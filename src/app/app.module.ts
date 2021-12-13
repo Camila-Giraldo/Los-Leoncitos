@@ -6,16 +6,20 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { AdminUsuarioComponent } from './admin-usuario/admin-usuario.component';
+import { AdminUsuarioComponent } from './administracion/admin-usuario/admin-usuario.component';
 import { ProgramasOfertaComponent } from './programas-oferta/programas-oferta.component';
 import {HttpClientModule} from '@angular/common/http';
+import { AdministracionComponent } from './administracion/administracion.component';
+import { AdminProgramasComponent } from './administracion/admin-programas/admin-programas.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     AdminUsuarioComponent,
-    ProgramasOfertaComponent
+    ProgramasOfertaComponent,
+    AdministracionComponent,
+    AdminProgramasComponent
   ],
   imports: [
     BrowserModule,

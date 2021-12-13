@@ -63,7 +63,7 @@ export class ServiciosBackendService {
     return this.http.patch(this.urlBackend + ruta + '/' + id, datos, headers);
   }
 
-  eliminarUsuario(ruta: string, id: string): Observable<any> {
+  eliminarDatos(ruta: string, id: string): Observable<any> {
     const headers = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',

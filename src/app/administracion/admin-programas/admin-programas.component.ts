@@ -1,40 +1,36 @@
 import { Component, OnInit } from '@angular/core';
-import { ServicioGlobalService } from '../servicios/servicio-global.service';
+import { ServicioGlobalService } from '../../servicios/servicio-global.service';
 import Swal from 'sweetalert2';
 import { Validators, FormBuilder } from '@angular/forms';
-import { ServiciosBackendService } from '../servicios/servicios-backend.service';
+import { ServiciosBackendService } from '../../servicios/servicios-backend.service';
 @Component({
-  selector: 'admin-usuario',
-  templateUrl: './admin-usuario.component.html',
-  styleUrls: ['./admin-usuario.component.scss'],
+  selector: 'admin-programas',
+  templateUrl: './admin-programas.component.html',
+  styleUrls: ['./admin-programas.component.scss'],
 })
-export class AdminUsuarioComponent implements OnInit {
-  nuevoUsuario = false;
-  formUsuario: any;
+export class AdminProgramasComponent implements OnInit {
+  nuevoPrograma = false;
+  formPrograma: any;
 
-  tipoUsuario = [
+  tipoPrograma = [
     {
       codigo: '',
       texto: 'Todos',
     },
     {
-      codigo: 'Estudiante',
-      texto: 'Estudiante',
+      codigo: 'Curso-Virtual',
+      texto: 'Curso-Virtual',
     },
     {
-      codigo: 'Profesor',
-      texto: 'Profesor',
-    },
-    {
-      codigo: 'Administrador',
-      texto: 'Administrador',
+      codigo: 'Pregrado-Presencial',
+      texto: 'Pregrado-Presencial',
     },
   ];
 
-  selectTipoUsuario = 'Estudiante';
+  selectTipoPrograma = 'Pregrado-Presencial';
 
-  listaUsuarios: any[] = [];
-  listaTodosUsuarios: any[] = [];
+  listaProgramas: any[] = [];
+  listaTodosProgramas: any[] = [];
 
   modoCrud = 'adicion';
 
@@ -47,37 +43,34 @@ export class AdminUsuarioComponent implements OnInit {
     private servicioBackend: ServiciosBackendService,
     private formBuilder: FormBuilder
   ) {
-    this.formUsuario = formBuilder.group({
+    this.formPrograma = formBuilder.group({
       nombre: ['', Validators.required],
-      correo: ['', Validators.compose([Validators.required, Validators.email])],
       tipo: [''],
-      identificacion: ['', Validators.required],
-      direccion: ['', Validators.required],
-      telefono: ['', Validators.required],
-      fechaNacimiento: ['', Validators.required],
       codigo: ['', Validators.required],
-      contrasenia: ['b59c67bf196a4758191e42f76670ceba'],
+      imagen: ['', Validators.required],
+      descripcion: ['', Validators.required],
+      duracion: ['', Validators.required],
+      creditos: ['', Validators.required],
       fechaRegistro: ['', Validators.required],
-      rolId: ['', Validators.required],
     });
 
-    this.obtenerUsuarios();
-    // const ruta = this.servicioGlobal.rutaActual;
+    this.obtenerProgramas();
+    const ruta = this.servicioGlobal.rutaActual;
   }
 
   ngOnInit(): void {}
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      this.servicioGlobal.rutaActual = 'admin-usuario';
+      this.servicioGlobal.rutaActual = 'admin-programas';
     });
   }
 
-  obtenerUsuarios(): void {
-    this.servicioBackend.getDatos('/usuarios').subscribe({
+  obtenerProgramas(): void {
+    this.servicioBackend.getDatos('/programa-academicos').subscribe({
       next: (datos) => {
-        this.listaTodosUsuarios = datos;
-        this.listaUsuarios = datos;
+        this.listaTodosProgramas = datos;
+        this.listaProgramas = datos;
       },
       error: (e) => {
         console.log('El error es: ' + e);
@@ -89,37 +82,37 @@ export class AdminUsuarioComponent implements OnInit {
   }
 
   iniciarCreacion(): void {
-    this.nuevoUsuario = !this.nuevoUsuario;
+    this.nuevoPrograma = !this.nuevoPrograma;
     this.modoCrud = 'adicion';
   }
 
-  async crearUsuario(): Promise<void> {
-    if (!this.selectTipoUsuario) {
+  async crearPrograma(): Promise<void> {
+    if (!this.selectTipoPrograma) {
       Swal.fire({
         title: 'Oops, tienes un error!',
-        text: 'Selecciona tipo de usuario válido',
+        text: 'Selecciona tipo de programa válido',
         icon: 'error',
         confirmButtonText: 'Vale',
       });
       return;
     }
 
-    const usuario = this.formUsuario.getRawValue();
-    usuario.tipo = this.selectTipoUsuario;
+    const programa = this.formPrograma.getRawValue();
+    programa.tipo = this.selectTipoPrograma;
     this.servicioBackend
-      .agregarDatos('/usuarios', JSON.stringify(usuario))
+      .agregarDatos('/programa-academicos', JSON.stringify(programa))
       .subscribe({
         next: (respuesta) => {
           console.log(respuesta);
           Swal.fire({
             title: '¡Excelente!',
-            text: 'Se ha creado un nuevo usuario',
+            text: 'Se ha creado un nuevo programa',
             icon: 'success',
             confirmButtonText: 'Cool',
           });
-          this.obtenerUsuarios();
-          this.formUsuario.reset();
-          this.nuevoUsuario = false;
+          this.obtenerProgramas();
+          this.formPrograma.reset();
+          this.nuevoPrograma = false;
         },
         error: (e) => {
           Swal.fire({
@@ -135,30 +128,30 @@ export class AdminUsuarioComponent implements OnInit {
       });
   }
 
-  iniciarEdicion(usuario: any): void {
-    this.idActual = usuario.id;
-    this.formUsuario.patchValue(usuario);
-    this.nuevoUsuario = true;
+  iniciarEdicion(programa: any): void {
+    this.idActual = programa.id;
+    this.formPrograma.patchValue(programa);
+    this.nuevoPrograma = true;
     this.modoCrud = 'edicion';
   }
 
-  editarUsuario(): void {
-    const usuarioModificado = this.formUsuario.getRawValue();
+  editarPrograma(): void {
+    const programaModificado = this.formPrograma.getRawValue();
 
     this.servicioBackend
-      .cambiarDatos('/usuarios', usuarioModificado, this.idActual)
+      .cambiarDatos('/programa-academicos', programaModificado, this.idActual)
       .subscribe({
         next: (respuesta) => {
           console.log(respuesta);
           Swal.fire({
             title: '¡Excelente!',
-            text: 'Se ha modificado el usuario',
+            text: 'Se ha modificado el programa',
             icon: 'success',
             confirmButtonText: 'Cool',
           });
-          this.obtenerUsuarios();
-          this.formUsuario.reset();
-          this.nuevoUsuario = false;
+          this.obtenerProgramas();
+          this.formPrograma.reset();
+          this.nuevoPrograma = false;
         },
         error: (e) => {
           Swal.fire({
@@ -174,17 +167,17 @@ export class AdminUsuarioComponent implements OnInit {
       });
   }
 
-  eliminarUsuario(id: string): void {
-    this.servicioBackend.eliminarUsuario('/usuarios', id).subscribe({
+  eliminarProgramas(id: string): void {
+    this.servicioBackend.eliminarDatos('/programa-academicos', id).subscribe({
       next: (respuesta) => {
         console.log(respuesta);
         Swal.fire({
           title: '¡Ojo!',
-          text: 'Se ha eliminado el usuario',
+          text: 'Se ha eliminado el programa',
           icon: 'warning',
           confirmButtonText: 'Ok',
         });
-        this.obtenerUsuarios();
+        this.obtenerProgramas();
       },
       error: (e) => {
         Swal.fire({
@@ -200,24 +193,24 @@ export class AdminUsuarioComponent implements OnInit {
     });
   }
 
-  filtarUsuarioPorTipo(): void {
-    if (this.selectTipoUsuario) {
-      const usuariosPorTipo = this.listaTodosUsuarios.filter(
-        (usuario) => usuario.tipo == this.selectTipoUsuario
+  filtarProgramaPorTipo(): void {
+    if (this.selectTipoPrograma) {
+      const programasPorTipo = this.listaTodosProgramas.filter(
+        (programa) => programa.tipo == this.selectTipoPrograma
       );
-      if (usuariosPorTipo) {
-        this.listaUsuarios = usuariosPorTipo;
+      if (programasPorTipo) {
+        this.listaProgramas = programasPorTipo;
       }
     } else {
-      this.listaUsuarios = this.listaTodosUsuarios;
+      this.listaProgramas = this.listaTodosProgramas;
     }
   }
 
   filtrarPorTexto(): void {
-    const usuariosFiltrados = this.listaTodosUsuarios.filter((usuario) => {
+    const programasFiltrados = this.listaTodosProgramas.filter((programa) => {
       let coincide = false;
-      for (const atributo in usuario) {
-        const valor = (usuario[atributo] + '').toLowerCase();
+      for (const atributo in programa) {
+        const valor = (programa[atributo] + '').toLowerCase();
 
         if (atributo == 'id') {
           continue;
@@ -230,6 +223,6 @@ export class AdminUsuarioComponent implements OnInit {
       }
       return coincide;
     });
-    this.listaUsuarios = usuariosFiltrados;
+    this.listaProgramas = programasFiltrados;
   }
 }
