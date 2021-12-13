@@ -17,7 +17,7 @@ import {Usuario} from '../models';
 import {UsuarioRepository} from '../repositories';
 import {AutorizacionService} from '../services';
 
-@authenticate('simple')
+// @authenticate('simple')
 
 export class UsuarioController {
   constructor(

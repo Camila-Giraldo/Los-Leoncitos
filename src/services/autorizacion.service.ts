@@ -67,7 +67,6 @@ export class AutorizacionService {
   validarToken(token: string) {
     try {
       let datos = jwt.verify(token, this.llaveSecreta);
-      console.log(datos)
       return datos;
     } catch (error) {
       return false;

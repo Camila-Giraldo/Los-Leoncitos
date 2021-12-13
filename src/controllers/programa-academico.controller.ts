@@ -21,7 +21,7 @@ import {
 import {ProgramaAcademico} from '../models';
 import {ProgramaAcademicoRepository} from '../repositories';
 
-@authenticate('simple')
+// @authenticate('simple')
 
 export class ProgramaAcademicoController {
   constructor(
