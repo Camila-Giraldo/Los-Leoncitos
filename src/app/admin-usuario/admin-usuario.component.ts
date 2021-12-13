@@ -27,25 +27,13 @@ export class AdminUsuarioComponent implements OnInit {
     },
   ];
 
-  idRol = [
-    {
-      id: '6199651059a47c4ac809bdd2',
-      texto: 'Profesor',
-    },
-    {
-      id: '6199653e59a47c4ac809bdd3',
-      texto: 'Estudiante',
-    },
-    {
-      id: '6199659359a47c4ac809bdd4',
-      texto: 'Administrador',
-    },
-  ];
-
   selectTipoUsuario = 'Estudiante';
-  selectRolId = '6199653e59a47c4ac809bdd3';
 
   listaUsuarios: any[] = [];
+
+  modoCrud = 'adicion';
+
+  idActual = '';
 
   constructor(
     private servicioGlobal: ServicioGlobalService,
@@ -63,8 +51,9 @@ export class AdminUsuarioComponent implements OnInit {
       codigo: ['', Validators.required],
       contrasenia: ['b59c67bf196a4758191e42f76670ceba'],
       fechaRegistro: ['', Validators.required],
-      rolId: [''],
+      rolId: ['', Validators.required],
     });
+
     this.obtenerUsuarios();
     // const ruta = this.servicioGlobal.rutaActual;
   }
@@ -92,10 +81,14 @@ export class AdminUsuarioComponent implements OnInit {
     });
   }
 
+  iniciarCreacion(): void {
+    this.nuevoUsuario = !this.nuevoUsuario;
+    this.modoCrud = 'adicion';
+  }
+
   async crearUsuario(): Promise<void> {
     const usuario = this.formUsuario.getRawValue();
     usuario.tipo = this.selectTipoUsuario;
-    usuario.rolId = this.selectRolId;
     this.servicioBackend
       .agregarDatos('/usuarios', JSON.stringify(usuario))
       .subscribe({
@@ -105,7 +98,7 @@ export class AdminUsuarioComponent implements OnInit {
             title: '¡Excelente!',
             text: 'Se ha creado un nuevo usuario',
             icon: 'success',
-            confirmButtonText: 'Vale',
+            confirmButtonText: 'Cool',
           });
           this.obtenerUsuarios();
         },
@@ -121,5 +114,68 @@ export class AdminUsuarioComponent implements OnInit {
           console.log('Completado');
         },
       });
+  }
+
+  iniciarEdicion(usuario: any): void {
+    this.idActual = usuario.id;
+    this.formUsuario.patchValue(usuario);
+    this.nuevoUsuario = true;
+    this.modoCrud = 'edicion';
+  }
+
+  editarUsuario(): void {
+    const usuarioModificado = this.formUsuario.getRawValue();
+
+    this.servicioBackend
+      .cambiarDatos('/usuarios', usuarioModificado, this.idActual)
+      .subscribe({
+        next: (respuesta) => {
+          console.log(respuesta);
+          Swal.fire({
+            title: '¡Excelente!',
+            text: 'Se ha modificado el usuario',
+            icon: 'success',
+            confirmButtonText: 'Cool',
+          });
+          this.obtenerUsuarios();
+        },
+        error: (e) => {
+          Swal.fire({
+            title: 'Error!',
+            text: 'No se pudo modificar',
+            icon: 'error',
+            confirmButtonText: 'Vale',
+          });
+        },
+        complete: () => {
+          console.log('Completado');
+        },
+      });
+  }
+
+  eliminarUsuario(id: string): void {
+    this.servicioBackend.eliminarUsuario('/usuarios', id).subscribe({
+      next: (respuesta) => {
+        console.log(respuesta);
+        Swal.fire({
+          title: '¡Ojo!',
+          text: 'Se ha eliminado el usuario',
+          icon: 'warning',
+          confirmButtonText: 'Ok',
+        });
+        this.obtenerUsuarios();
+      },
+      error: (e) => {
+        Swal.fire({
+          title: '¡Oops!',
+          text: 'No se pudo eliminar',
+          icon: 'error',
+          confirmButtonText: 'Vale',
+        });
+      },
+      complete: () => {
+        console.log('Completado');
+      },
+    });
   }
 }
