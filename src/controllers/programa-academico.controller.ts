@@ -1,3 +1,4 @@
+import {authenticate} from '@loopback/authentication';
 import {
   Count,
   CountSchema,
@@ -19,6 +20,8 @@ import {
 } from '@loopback/rest';
 import {ProgramaAcademico} from '../models';
 import {ProgramaAcademicoRepository} from '../repositories';
+
+@authenticate('simple')
 
 export class ProgramaAcademicoController {
   constructor(

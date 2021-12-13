@@ -1,29 +1,23 @@
+import {authenticate} from '@loopback/authentication';
+import {service} from '@loopback/core';
 import {
   Count,
   CountSchema,
   Filter,
   FilterExcludingWhere,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
-  post,
-  param,
-  get,
-  getModelSchemaRef,
-  patch,
-  put,
-  del,
-  requestBody,
-  response,
-  HttpErrors,
+  del, get,
+  getModelSchemaRef, param, patch, post, put, requestBody,
+  response
 } from '@loopback/rest';
 import {Usuario} from '../models';
 import {UsuarioRepository} from '../repositories';
-import {Credenciales} from '../models';
-import {service} from '@loopback/core';
 import {AutorizacionService} from '../services';
-import {authenticate} from '@loopback/authentication';
+
+@authenticate('simple')
 
 export class UsuarioController {
   constructor(
@@ -32,35 +26,6 @@ export class UsuarioController {
     @service(AutorizacionService)
     public servicioAutorizacion: AutorizacionService,
   ) {}
-
-  @post('/login', {
-    responses: {
-      '200': {
-        description: 'Login usuario',
-      },
-    },
-  })
-  async login(@requestBody() credenciales: Credenciales) {
-    let usuarioEncontrado = await this.servicioAutorizacion.validarUsuario(
-      credenciales,
-    );
-    if (usuarioEncontrado) {
-      const token = await this.servicioAutorizacion.generarToken(
-        usuarioEncontrado,
-      );
-
-      return {
-        data: {
-          nombre: usuarioEncontrado.nombre,
-          correo: usuarioEncontrado.correo,
-          fechaRegistro: usuarioEncontrado.fechaRegistro,
-        },
-        tk: token,
-      };
-    } else {
-      throw new HttpErrors[401]('Datos inválidos');
-    }
-  }
 
   @post('/usuarios')
   @response(200, {
