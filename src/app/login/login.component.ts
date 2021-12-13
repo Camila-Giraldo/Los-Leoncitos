@@ -31,6 +31,7 @@ export class LoginComponent implements OnInit {
       correo: ['', Validators.compose([Validators.required, Validators.email])],
       contrasenia: ['', Validators.required],
     });
+    this.servicioGlobal.rutaActual = 'login';
   }
 
   ngOnInit(): void {}

@@ -14,6 +14,10 @@ export class AdminUsuarioComponent implements OnInit {
 
   tipoUsuario = [
     {
+      codigo: '',
+      texto: 'Todos',
+    },
+    {
       codigo: 'Estudiante',
       texto: 'Estudiante',
     },
@@ -30,8 +34,11 @@ export class AdminUsuarioComponent implements OnInit {
   selectTipoUsuario = 'Estudiante';
 
   listaUsuarios: any[] = [];
+  listaTodosUsuarios: any[] = [];
 
   modoCrud = 'adicion';
+
+  textoFiltro = '';
 
   idActual = '';
 
@@ -69,7 +76,7 @@ export class AdminUsuarioComponent implements OnInit {
   obtenerUsuarios(): void {
     this.servicioBackend.getDatos('/usuarios').subscribe({
       next: (datos) => {
-        console.log(datos);
+        this.listaTodosUsuarios = datos;
         this.listaUsuarios = datos;
       },
       error: (e) => {
@@ -87,6 +94,16 @@ export class AdminUsuarioComponent implements OnInit {
   }
 
   async crearUsuario(): Promise<void> {
+    if (!this.selectTipoUsuario) {
+      Swal.fire({
+        title: 'Oops, tienes un error!',
+        text: 'Selecciona tipo de usuario válido',
+        icon: 'error',
+        confirmButtonText: 'Vale',
+      });
+      return;
+    }
+
     const usuario = this.formUsuario.getRawValue();
     usuario.tipo = this.selectTipoUsuario;
     this.servicioBackend
@@ -101,6 +118,8 @@ export class AdminUsuarioComponent implements OnInit {
             confirmButtonText: 'Cool',
           });
           this.obtenerUsuarios();
+          this.formUsuario.reset();
+          this.nuevoUsuario = false;
         },
         error: (e) => {
           Swal.fire({
@@ -138,6 +157,8 @@ export class AdminUsuarioComponent implements OnInit {
             confirmButtonText: 'Cool',
           });
           this.obtenerUsuarios();
+          this.formUsuario.reset();
+          this.nuevoUsuario = false;
         },
         error: (e) => {
           Swal.fire({
@@ -177,5 +198,38 @@ export class AdminUsuarioComponent implements OnInit {
         console.log('Completado');
       },
     });
+  }
+
+  filtarUsuarioPorTipo(): void {
+    if (this.selectTipoUsuario) {
+      const usuariosPorTipo = this.listaTodosUsuarios.filter(
+        (usuario) => usuario.tipo == this.selectTipoUsuario
+      );
+      if (usuariosPorTipo) {
+        this.listaUsuarios = usuariosPorTipo;
+      }
+    } else {
+      this.listaUsuarios = this.listaTodosUsuarios;
+    }
+  }
+
+  filtrarPorTexto(): void {
+    const usuariosFiltrados = this.listaTodosUsuarios.filter((usuario) => {
+      let coincide = false;
+      for (const atributo in usuario) {
+        const valor = (usuario[atributo] + '').toLowerCase();
+
+        if (atributo == 'id') {
+          continue;
+        }
+
+        if (valor.includes(this.textoFiltro.toLowerCase())) {
+          coincide = true;
+          break;
+        }
+      }
+      return coincide;
+    });
+    this.listaUsuarios = usuariosFiltrados;
   }
 }

@@ -4,13 +4,13 @@
 
         <button type="button" (click)="iniciarCreacion()" class="btn btn-primary me-2 cls-boton-crud">Crear
             usuario</button>
-        <select class="form-select cls-select-filtro" [(ngModel)]="selectTipoUsuario" aria-placeholder="Tipo de usuario">
+        <select class="form-select cls-select-filtro" [(ngModel)]="selectTipoUsuario" (change)="filtarUsuarioPorTipo()" aria-placeholder="Tipo de usuario">
             <option [value]="tipo.codigo" *ngFor="let tipo of tipoUsuario">
                 {{tipo.texto}}
             </option>
         </select>
         <div class="cls-buscar">
-            <input type="text" class="form-control" name="" id="" placeholder="Buscar">
+            <input type="text" class="form-control" [(ngModel)]="textoFiltro" (ngModelChange)="filtrarPorTexto()" name="" id="" placeholder="Buscar">
 
         </div>
     </section>
@@ -47,7 +47,7 @@
             </div>
             <div class="mb-3 me-3">
                 <label for="exampleInputEmail1" class="form-label">Fecha registro</label>
-                <input type="datetime" class="form-control" formControlName="fechaRegistro" aria-describedby="emailHelp">
+                <input type="datetime" class="form-control" formControlName="fechaRegistro" aria-describedby="datetimeHelp">
             </div>
             <div class="mb-3 me-3">
                 <label for="exampleInputEmail1" class="form-label">Rol</label>

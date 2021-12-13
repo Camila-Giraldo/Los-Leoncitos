@@ -20,6 +20,7 @@ export class AppComponent {
   }
 
   routeLogin(): void {
+    this.servicioBackend.cerrarSesion();
     this.router.navigate(['/login']);
   }
   routeProgramas(): void {
