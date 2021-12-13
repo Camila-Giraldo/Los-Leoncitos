@@ -1,33 +1,10 @@
-// Uncomment these imports to begin using these cool features!
+import {repository} from '@loopback/repository';
+import {post, requestBody, HttpErrors} from '@loopback/rest';
 
-// import {inject} from '@loopback/core';
-import {
-  Count,
-  CountSchema,
-  Filter,
-  FilterExcludingWhere,
-  repository,
-  Where,
-} from '@loopback/repository';
-import {
-  post,
-  param,
-  get,
-  getModelSchemaRef,
-  patch,
-  put,
-  del,
-  requestBody,
-  response,
-  HttpErrors,
-} from '@loopback/rest';
-
-import {Usuario} from '../models';
 import {UsuarioRepository} from '../repositories';
 import {Credenciales} from '../models';
 import {service} from '@loopback/core';
 import {AutorizacionService} from '../services';
-import {authenticate} from '@loopback/authentication';
 
 export class AutenticacionController {
   constructor(
@@ -66,5 +43,4 @@ export class AutenticacionController {
       throw new HttpErrors[401]('Datos inválidos');
     }
   }
-
 }
